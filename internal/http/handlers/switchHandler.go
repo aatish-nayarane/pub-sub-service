@@ -21,6 +21,27 @@ func NewSwitchHandler(switchService *services.SwitchService) *SwitchHandler {
 	}
 }
 
+func Create(s SwitchHandler) Create(c *gin.Context)	{
+	var  req  models.Switch
+	if err := 
+		c.ShouldBindJSON(&req, ); err !=nil {
+			c.JSON(500, gin.H{
+				"error" err.Error(),
+
+			},
+		)
+		return
+		}
+	c.JSON(
+		201,
+		gin.H{
+			"message": "created",
+		},
+	)
+	
+}
+
+
 
 
 
