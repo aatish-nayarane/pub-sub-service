@@ -30,7 +30,7 @@ func  GetMongoClient(uri  string) (*mongo.Client, error) {
 			mongo.Connect(
 				options.Client().ApplyURI(uri),
 			)
-	}
+		}
 	)
 	return client, connectErr
 

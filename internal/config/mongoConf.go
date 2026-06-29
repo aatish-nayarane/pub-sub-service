@@ -9,7 +9,7 @@ type  MongoConfig  struct {
 
 func GetMongoConfig() *MongoConfig {
 	return &MongoConfig{
-		URL    "mongo:localhost:27027"
-		DB     "alert_db"
+		URL  "mongo:localhost:27027",
+		DB   "alert_db",
 	}
 }
