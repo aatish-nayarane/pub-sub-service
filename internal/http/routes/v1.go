@@ -2,21 +2,37 @@ package routes
 
 import (
 	"alert_and_notification/internal/http/handlers"
-	"alert_and_notification/internal/services"
 
 	"github.com/gin-gonic/gin"
 )
 
-func RegisterV1(r *gin.Engine) {
-	switchService := services.NewSwitchService()
-	handlers := handlers.NewSwitchHandler(switchService)
-	v1 := r.Group("/api/v1")
-	switches := v1.Group("/switch")
-	{
-		switches.POST("", handlers.Create)
-		switches.GET("/:project_id", handlers.Get)
-		switches.PUT("/:project_id", handlers.Update)
-		switches.DELETE("/:project_id", handlers.Delete)
-	}
+func RegisterV1(
+	r *gin.Engine,
+	switchHandler *handlers.SwitchHandler,
+) {
 
+	v1 :=
+		r.Group(
+			"/api/v1",
+		)
+
+	v1.POST(
+		"/switch",
+		switchHandler.Create,
+	)
+
+	// v1.GET(
+	// 	"/switch/:project_id",
+	// 	switchHandler.Get,
+	// )
+
+	// v1.PUT(
+	// 	"/switch/:project_id",
+	// 	switchHandler.Update,
+	// )
+
+	// v1.DELETE(
+	// 	"/switch/:project_id",
+	// 	switchHandler.Delete,
+	// )
 }
