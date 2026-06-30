@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"alert_and_notification/internal/http/handlers"
+	"pub-sub-service/internal/http/handlers"
 
 	"github.com/gin-gonic/gin"
 )

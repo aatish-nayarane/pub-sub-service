@@ -1,17 +1,16 @@
 package bootstrap
 
 import (
-	"alert_and_notification/internal/config"
-	"alert_and_notification/internal/http/handlers"
-	"alert_and_notification/internal/services"
+	"pub-sub-service/internal/config"
+	"pub-sub-service/internal/http/handlers"
+	"pub-sub-service/internal/services"
 
-	db "alert_and_notification/internal/storage/mongo"
+	db "pub-sub-service/internal/storage/mongo"
 )
 
-
 func SwitchBootstrap() (*handlers.SwitchHandler, error) {
-	// from  cfg you wiil get mongo  url and  and db name 
-	cfg:=  config.GetMongoConfig()
+	// from  cfg you wiil get mongo  url and  and db name
+	cfg := config.GetMongoConfig()
 	// from client  you will get  mongo  client connection  and  error in  singleton  connection
 	client, err := db.GetMongoClient(cfg.URL)
 	if err != nil {
@@ -20,7 +19,7 @@ func SwitchBootstrap() (*handlers.SwitchHandler, error) {
 	//  create swithc collection  collection  and  pass  to  service layer
 	getSwitchCollection := db.GetCollection(client, cfg.DB, "switch")
 	//  setup switch repo
-	repo :=  db.NewSwitchRepo(getSwitchCollection)
+	repo := db.NewSwitchRepo(getSwitchCollection)
 	//  create  service layer  and pass  collection to service layer
 
 	switchService := services.NewSwitchService(repo)
@@ -28,4 +27,4 @@ func SwitchBootstrap() (*handlers.SwitchHandler, error) {
 	switchHandler := handlers.NewSwitchHandler(switchService)
 	return switchHandler, nil
 
-} 
+}

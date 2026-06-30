@@ -2,12 +2,15 @@ package main
 
 import (
 	"log"
-	"alert_and_notification/internal/bootstrap"
-	"alert_and_notification/internal/config"
-	"alert_and_notification/internal/http/middleware"
-	"alert_and_notification/internal/http/routes"
+	"pub-sub-service/internal/bootstrap"
+	"pub-sub-service/internal/config"
+	"pub-sub-service/internal/http/middleware"
+	"pub-sub-service/internal/http/routes"
 
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+
 )
 
 func main() {
@@ -20,8 +23,8 @@ func main() {
 
 	// Initialize Switch dependencies
 	switchHandler,
-	err :=
-		bootstrap.InitSwitchHandler()
+		err :=
+		bootstrap.SwitchBootstrap()
 
 	if err != nil {
 
@@ -70,6 +73,12 @@ func main() {
 
 	logger.Info(
 		"server started",
+	)
+	r.GET(
+		"/swagger/*any",
+		ginSwagger.WrapHandler(
+			swaggerFiles.Handler,
+		),
 	)
 
 	if err :=

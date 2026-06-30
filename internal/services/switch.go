@@ -1,8 +1,8 @@
 package services
 
 import (
-	"alert_and_notification/internal/models"
-	db "alert_and_notification/internal/storage/mongo"
+	"pub-sub-service/internal/models"
+	db "pub-sub-service/internal/storage/mongo"
 	"context"
 )
 

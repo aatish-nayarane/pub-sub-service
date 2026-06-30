@@ -1,7 +1,7 @@
 package mango
 
 import (
-	"alert_and_notifications/internal/models"
+	"pub-sub-service/internal/models"
 	"context"
 )
 

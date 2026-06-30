@@ -1,7 +1,7 @@
 package statusresponse
 
 import (
-	errorHandler "alert_and_notification/internal/errorHandler"
+	errorHandler "pub-sub-service/internal/errorHandler"
 	"errors"
 	"fmt"
 	"net/http"

@@ -3,9 +3,8 @@ package handlers
 import (
 	"net/http"
 
-	"alert_and_notification/internal/models"
-	"alert_and_notification/internal/services"
-	
+	"pub-sub-service/internal/models"
+	"pub-sub-service/internal/services"
 
 	"github.com/gin-gonic/gin"
 )
@@ -15,13 +14,23 @@ type SwitchHandler struct {
 	switchService *services.SwitchService
 }
 
-
 func NewSwitchHandler(switchService *services.SwitchService) *SwitchHandler {
 	return &SwitchHandler{
 		switchService: switchService,
 	}
 }
 
+// Create godoc
+//
+// @Summary Create switch
+// @Description Create switch configuration
+// @Tags Switch
+// @Accept json
+// @Produce json
+// @Param request body models.Switch true "Switch"
+// @Success 201 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Router /api/v1/switch [post]
 func (s SwitchHandler) Create(c *gin.Context) {
 	var req models.Switch
 	if err :=
@@ -34,7 +43,7 @@ func (s SwitchHandler) Create(c *gin.Context) {
 	}
 	c.JSON(
 		201,
-		gin.H{	
+		gin.H{
 			"message": "created",
 		},
 	)
@@ -48,7 +57,7 @@ func (h *SwitchHandler) CreateSwitch(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	
+
 	response := h.switchService.CreateSwitch(&payload)
 	c.JSON(http.StatusOK, response)
 }
