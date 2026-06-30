@@ -1,6 +1,8 @@
 package main
 
 import (
+	"log"
+	"alert_and_notification/internal/bootstrap"
 	"alert_and_notification/internal/config"
 	"alert_and_notification/internal/http/middleware"
 	"alert_and_notification/internal/http/routes"
@@ -11,18 +13,40 @@ import (
 func main() {
 
 	// Initialize logger
-	logger := config.SetLogger()
+	logger :=
+		config.SetLogger()
+
+	defer logger.Sync()
+
+	// Initialize Switch dependencies
+	switchHandler,
+	err :=
+		bootstrap.InitSwitchHandler()
+
+	if err != nil {
+
+		logger.Error(
+			"failed to initialize switch module",
+		)
+
+		log.Fatal(
+			err,
+		)
+	}
 
 	// Create Gin Engine
-	r := gin.Default()
+	r :=
+		gin.New()
 
 	// Security
 	r.SetTrustedProxies(nil)
 
-	// Recovery middleware
-	r.Use(gin.Recovery())
+	// Recover panic
+	r.Use(
+		gin.Recovery(),
+	)
 
-	// Inject logger into request context
+	// Inject logger
 	r.Use(
 		middleware.InjectLogger(
 			logger,
@@ -39,12 +63,26 @@ func main() {
 	)
 
 	// Register routes
-	routes.RegisterV1(r)
+	routes.RegisterV1(
+		r,
+		switchHandler,
+	)
 
-	// Start server
 	logger.Info(
 		"server started",
 	)
 
-	r.Run(":8080")
+	if err :=
+		r.Run(
+			":8080",
+		); err != nil {
+
+		logger.Error(
+			"server startup failed",
+		)
+
+		log.Fatal(
+			err,
+		)
+	}
 }
